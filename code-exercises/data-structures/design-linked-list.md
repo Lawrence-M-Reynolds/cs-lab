@@ -207,4 +207,104 @@ class MyLinkedList:
 ````
 
 ````golang
+type MyLinkedList struct {
+    base *Node
+    size int
+}
+
+type Node struct {
+    val     int
+    next    *Node
+}
+
+func Constructor() MyLinkedList {
+    return MyLinkedList{
+        base: &Node {
+            val: -1,
+            next: nil,
+        },
+        size: 0,
+    }
+}
+
+
+func (this *MyLinkedList) Get(index int) int {
+    if index < 0 || index >= this.size {
+        return -1
+    }
+    
+    node := this.base
+    var i int
+    for i = 0; i <= index; i++ {
+        node = node.next
+    }
+    
+    return node.val
+}
+
+
+func (this *MyLinkedList) AddAtHead(val int)  {
+    next := this.base.next
+    this.base.next = &Node {
+        val: val,
+        next: next,
+    }
+    this.size++
+}
+
+
+func (this *MyLinkedList) AddAtTail(val int)  {
+    last := this.base
+    for i := 0; i < this.size; i++ {
+        last = last.next
+    }
+    last.next = &Node {
+        val: val,
+    }
+    this.size++
+}
+
+
+func (this *MyLinkedList) AddAtIndex(index int, val int)  {
+    if index < 0 || index > this.size {
+        return
+    }
+    
+    insertBefore := this.base
+    for i := 0; i < index; i++ {
+        insertBefore = insertBefore.next
+    }
+    
+    insertAfter := insertBefore.next;
+    insertBefore.next = &Node {
+        val: val,
+        next: insertAfter,
+    }
+    this.size++
+}
+
+
+func (this *MyLinkedList) DeleteAtIndex(index int)  {
+    if index < 0 || index >= this.size {
+        return
+    }
+    
+    deleteBefore := this.base
+    for i := 0; i < index; i++ {
+        deleteBefore = deleteBefore.next
+    }
+    deleteBefore.next = deleteBefore.next.next;
+    this.size--
+}
+
+
+/**
+ * Your MyLinkedList object will be instantiated and called as such:
+ * obj := Constructor();
+ * param_1 := obj.Get(index);
+ * obj.AddAtHead(val);
+ * obj.AddAtTail(val);
+ * obj.AddAtIndex(index,val);
+ * obj.DeleteAtIndex(index);
+ */
 ````

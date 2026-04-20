@@ -1,4 +1,4 @@
-# {Title}
+# Linked List Cycle
 
 **Source:** LeetCode
 
@@ -45,4 +45,32 @@ Follow up: Can you solve it using O(1) (i.e. constant) memory?
 ## Solution:
 
 ````golang
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func hasCycle(head *ListNode) bool {
+    if head == nil {
+        return false
+    }
+    
+    pSingle := head
+    pDouble := head
+    
+    for pDouble != nil && pDouble.Next != nil {
+        pDouble = pDouble.Next.Next
+        pSingle = pSingle.Next
+        
+        if pDouble == pSingle {
+            return true
+        }
+    }
+    
+    return false;
+}
+
+
 ````

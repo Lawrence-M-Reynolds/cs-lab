@@ -42,6 +42,35 @@ Constraints:
 Follow up: Can you solve it using O(1) (i.e. constant) memory?
 
 ## Solution:
+### Discussion
+It can be shown that, if the following is true:
+    - the faster pointer (pF) is moving by two, while the slow pointer (pS) moves by one
+    - the Intersection (I) where the cycle starts is at distance (d) from the start of the list (b) then the 
+
+Then if you were to move forward by (d) from the point where both pointers meet (M), you will reach I.
+Therefore, if you were to move from (M) and the base node (b) a distance (d) simultaneously, then they would both meet at (I).
+
+#### Proof
+##### CASE (d) = 0 (so the list is basically just a circle, where the (I) is at (b). )
+Then (M) will be at (I).
+This is because, when (pF) will have completed the cycle once, while (pS) will have gone halfway. And then (pF) will complete its second cycle when (ps) complets it's first, so both will be at (I).
+
+##### CASE (d) > 0, (so there's a line before the circle)
+We know that when (pS) has reached (I), then (pF) must have moved distance (d) around the circle, beacuse (pS) must have moved by (d) and (pF) is twice as fast.
+This time, if (pS) arrives halfway around the circle then (pF) will be back at distance (d) from (I).
+If the size of the circle is (C) then we know that the distance between the two pointers must therefor be:
+    (C/2) - d
+And because of their relative speeds we know that they must therefore meet when (pF) has moved twice this distance:
+    C - 2d
+Because (pF)'s origin was at distance (d) around the circle, therefore both pointers meet at this distance round the circle:
+    C - 2d + d  or
+    C - d
+So we can therefore deduce that the distance from this point back to (I) must be d.
+
+TODO: Need to generalise this for when d >> C
+ 
+###
+
 
 ````golang
 /**
@@ -57,47 +86,19 @@ func detectCycle(head *ListNode) *ListNode {
     }    
     
     pSlowNode := head
-    pSlowIndex := 0
     pFastNode := head.Next
-    pFastIndex := 1
     
     for pFastNode != nil && pFastNode.Next != nil {
         if pSlowNode == pFastNode {
-            // circleSize := pFastNode - pSlowNode
-            // intersectionIndex := pSlowNode - circleSize
-
-            searchStartIndex := 2*pSlowIndex - pFastIndex
-            pLeftNode, pRightNode := getSearchStartNodes(head, pSlowNode, searchStartIndex)
-            
-            return findIntersectionNode(pLeftNode, pRightNode)
+            return findIntersectionNode(head, pSlowNode.Next)
         }
         
         pSlowNode = pSlowNode.Next
-        pSlowIndex++
-        
         pFastNode = pFastNode.Next.Next
-        pFastIndex += 2
     }
     
     return nil
     
-}
-
-func getSearchStartNodes(head *ListNode, pSlowNode *ListNode, searchStartIndex int) (*ListNode, *ListNode) {
-    pLeftNode := head
-    pRightNode := pSlowNode
-    
-    if searchStartIndex >= 0 {
-        for i := 1; i <= searchStartIndex; i++ {
-            pLeftNode = pLeftNode.Next
-        }
-    } else {
-        for i := searchStartIndex; i < 0; i++ {
-            pRightNode = pRightNode.Next
-        }
-    }
-    
-    return pLeftNode, pRightNode
 }
 
 func findIntersectionNode(pLeftNode *ListNode, pRightNode *ListNode) *ListNode {

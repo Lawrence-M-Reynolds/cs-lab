@@ -119,13 +119,13 @@ func findChainLengths(headA, headB *ListNode) (bool, int) {
     nodeB := headB
        
     diff := 0
-    for nodeA != nil || nodeB != nil {
-        if nodeA != nil {
+    for nodeA.Next != nil || nodeB.Next != nil {
+        if nodeA.Next != nil {
             nodeA = nodeA.Next
             diff++
         }
         
-        if nodeB != nil {
+        if nodeB.Next != nil {
             nodeB = nodeB.Next
             diff--
         }

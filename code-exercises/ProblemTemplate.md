@@ -5,11 +5,5 @@
 ## Problem description:
 
 ## Solution:
-````Java
-````
-
-````Python
-````
-
 ````golang
 ````

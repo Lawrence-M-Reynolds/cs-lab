@@ -84,13 +84,11 @@ func flatten(root *Node) *Node {
     if root == nil {
         return nil
     }
-    dummyHead := &Node{}
-    flattenList(root, dummyHead)
-    dummyHead.Next.Prev = nil
+    flattenList(root)
     return root
 }
 
-func flattenList(firstListNode, oldP *Node) *Node {
+func flattenList(firstListNode *Node) *Node {
     var nextNodePlaceHolder *Node
     p := firstListNode
     for ; p != nil; p = p.Next {
@@ -98,7 +96,12 @@ func flattenList(firstListNode, oldP *Node) *Node {
         if childList != nil {
             p.Child = nil
             nextNodePlaceHolder = p.Next
-            p = flattenList(childList, p)
+            newP := flattenList(childList)
+            
+            p.Next = childList
+            childList.Prev = p
+            p = newP
+            
             if nextNodePlaceHolder != nil {
                 p.Next = nextNodePlaceHolder
                 nextNodePlaceHolder.Prev = p                
@@ -110,8 +113,6 @@ func flattenList(firstListNode, oldP *Node) *Node {
         }
     }
     
-    oldP.Next = firstListNode
-    firstListNode.Prev = oldP
     return p
 }
 ````

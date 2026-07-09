@@ -41,36 +41,16 @@ Follow-up: Can you come up with an algorithm that is less than O(n2) time comple
 func twoSum(nums []int, target int) []int {
     valueToIndexMap := make(map[int]int, len(nums))
     
-    targetEven := target % 2 == 0
-    halfTarget := target / 2
-    halfValueStoreIndex := -1
-    fmt.Printf("halfTarget, %d\n", halfTarget)
-    
     for i, num := range nums {
-        if targetEven && num == halfTarget && halfValueStoreIndex == -1 {
-            halfValueStoreIndex = i
+        diffToTarget := target - num
+        diffIndex, exists := valueToIndexMap[diffToTarget]
+        if (exists) {
+            return []int {i, diffIndex}
         } else {
-            valueToIndexMap[num] = i   
+            valueToIndexMap[num] = i
         }
     }
     
-    for num, i := range valueToIndexMap {
-        fmt.Printf("num, i: %d, %d\n", num, i)
-        if targetEven && num == halfTarget {
-            fmt.Printf("halfValueStoreIndex: %d\n", halfValueStoreIndex)
-            if halfValueStoreIndex != -1 {
-                return []int {i, halfValueStoreIndex}    
-            } else {
-                continue
-            }
-        }
-        
-        matchValue := target - num
-        matchIndex, exists := valueToIndexMap[matchValue]
-        if exists {
-            return []int {i, matchIndex}
-        }
-    }
-    return nil
+    return []int {}
 }
 ````

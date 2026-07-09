@@ -38,20 +38,14 @@ Each element in the array appears twice except for one element which appears onl
 ## Solution:
 ````golang
 func singleNumber(nums []int) int {
-    numSet := make(map[int]struct{}, len(nums) / 2)
-    
+    return usingXor(nums)
+}
+
+func usingXor(nums []int) int {
+    result := 0
     for _, num := range nums {
-        _, exists := numSet[num]
-        if exists {
-            delete(numSet, num)
-        } else {
-            numSet[num] = struct{}{}
-        }
+        result = num ^ result
     }
-    
-    for num := range numSet {
-        return num
-    }
-    return -1
+    return result
 }
 ````

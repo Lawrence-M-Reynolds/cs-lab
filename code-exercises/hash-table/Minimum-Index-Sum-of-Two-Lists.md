@@ -58,11 +58,16 @@ func findRestaurant(list1 []string, list2 []string) []string {
     bestSum := math.MaxInt
     
     for i1, str := range list2 {
+        if i1 > bestSum {
+            break
+        }
+
         i2, exists := list1StringToIndexMap[str]
         sum := i1 + i2
         if exists {
             if sum < bestSum {
-                bestStrs = []string{str}
+                bestStrs = bestStrs[:0]
+                bestStrs = append(bestStrs, str)
                 bestSum = sum
             } else if sum == bestSum {
                 bestStrs = append(bestStrs, str)

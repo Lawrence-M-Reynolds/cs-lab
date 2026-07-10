@@ -32,4 +32,24 @@ Constraints:
 
 ## Solution:
 ````golang
+func containsNearbyDuplicate(nums []int, k int) bool {
+    
+    intCountRegister := make(map[int]struct{})
+    
+    left := k * -1
+    
+    for _, num := range nums {
+        _, exists := intCountRegister[num]
+        if exists {
+            return true
+        }
+        intCountRegister[num] = struct{}{}
+        if left >= 0 {
+            delete(intCountRegister, nums[left])
+        }
+        left++
+    }
+    
+    return false
+}
 ````
